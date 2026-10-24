@@ -1,0 +1,325 @@
+{
+  "info": {
+    "name": "Neighborhood Security Alert System Midterm",
+    "_postman_id": "2e7f22e0-2714-4f9e-9a44-20261022",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080"
+    },
+    {
+      "key": "residentId",
+      "value": "00000000-0000-0000-0000-000000000001"
+    },
+    {
+      "key": "guardId",
+      "value": "00000000-0000-0000-0000-000000000002"
+    },
+    {
+      "key": "incidentTypeId",
+      "value": "00000000-0000-0000-0000-000000000003"
+    },
+    {
+      "key": "reportId",
+      "value": "00000000-0000-0000-0000-000000000004"
+    },
+    {
+      "key": "resolvedReportId",
+      "value": "00000000-0000-0000-0000-000000000005"
+    },
+    {
+      "key": "zoneId",
+      "value": "00000000-0000-0000-0000-000000000006"
+    },
+    {
+      "key": "responseActionId",
+      "value": "00000000-0000-0000-0000-000000000007"
+    }
+  ],
+  "item": [
+    {
+      "name": "A2 - Save resident",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/api/residents/save",
+        "description": "",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"firstName\": \"Aline\",\n  \"lastName\": \"Mukamana\",\n  \"nationalId\": \"1200180045678901\",\n  \"phone\": \"0780000000\",\n  \"street\": \"KG 11 Ave\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "A2 - Save incident type",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/api/incident-types/save",
+        "description": "",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Theft\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "A2 - Save patrol zone",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/api/patrol-zones/save",
+        "description": "",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"zoneNumber\": 1,\n  \"name\": \"Central Zone\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "A2 - Save security guard",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/api/security-guards/save",
+        "description": "",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"firstName\": \"Eric\",\n  \"lastName\": \"Niyonzima\",\n  \"phone\": \"0781111111\",\n  \"patrolZone\": {\n    \"id\": \"{{zoneId}}\"\n  },\n  \"incidentTypes\": [\n    {\n      \"id\": \"{{incidentTypeId}}\"\n    }\n  ]\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "A2 / D1 - Save incident report",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/api/incident-reports/save",
+        "description": "",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"reportDate\": \"2026-10-23\",\n  \"description\": \"Suspicious movement reported\",\n  \"location\": \"KG 11 Ave\",\n  \"resident\": {\n    \"id\": \"{{residentId}}\"\n  },\n  \"securityGuard\": {\n    \"id\": \"{{guardId}}\"\n  }\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "B1 - Residents by street",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/api/residents/by-street?street=kg%2011%20ave",
+        "description": ""
+      }
+    },
+    {
+      "name": "B2 - Reports by status",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/api/incident-reports/by-status?status=REPORTED",
+        "description": ""
+      }
+    },
+    {
+      "name": "B3 - Reports between dates",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/api/incident-reports/between?start=2026-10-01&end=2026-10-31",
+        "description": ""
+      }
+    },
+    {
+      "name": "C1 - Guards by incident type",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/api/security-guards/by-incident-type?name=theft",
+        "description": ""
+      }
+    },
+    {
+      "name": "C2 - Free patrol zones",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/api/patrol-zones/free",
+        "description": ""
+      }
+    },
+    {
+      "name": "C3 - Unused incident types",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/api/incident-types/unused",
+        "description": ""
+      }
+    },
+    {
+      "name": "C4 - Residents of guard",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/api/residents/of-security-guard/{{guardId}}",
+        "description": ""
+      }
+    },
+    {
+      "name": "D2 - Change report status",
+      "request": {
+        "method": "PATCH",
+        "header": [],
+        "url": "{{baseUrl}}/api/incident-reports/{{reportId}}/status?status=DISPATCHED",
+        "description": ""
+      }
+    },
+    {
+      "name": "D3 - Add incident type to guard",
+      "request": {
+        "method": "PUT",
+        "header": [],
+        "url": "{{baseUrl}}/api/security-guards/{{guardId}}/incident-types/{{incidentTypeId}}",
+        "description": ""
+      }
+    },
+    {
+      "name": "D4 - Move guard patrol zone",
+      "request": {
+        "method": "PATCH",
+        "header": [],
+        "url": "{{baseUrl}}/api/security-guards/{{guardId}}/patrol-zone?zoneNumber=4",
+        "description": ""
+      }
+    },
+    {
+      "name": "E1 - Save response action",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/api/response-actions/save?incidentReportId={{resolvedReportId}}",
+        "description": "",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"actionName\": \"Patrol visit\",\n  \"notes\": \"Checked the gate, no damage found\",\n  \"minutesTaken\": 20\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "E2 - Resident response history",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/api/response-actions/resident/1200180045678901",
+        "description": ""
+      }
+    },
+    {
+      "name": "E3 - Delete response action",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": "{{baseUrl}}/api/response-actions/delete/{{responseActionId}}",
+        "description": ""
+      }
+    },
+    {
+      "name": "F1 - Reports count by status",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/api/incident-reports/stats/by-status",
+        "description": ""
+      }
+    },
+    {
+      "name": "F2 - Cancel guard day reports",
+      "request": {
+        "method": "PATCH",
+        "header": [],
+        "url": "{{baseUrl}}/api/incident-reports/cancel-day?securityGuardId={{guardId}}&date=2026-10-20",
+        "description": ""
+      }
+    },
+    {
+      "name": "Bonus - Dashboard",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/api/dashboard/summary",
+        "description": ""
+      }
+    },
+    {
+      "name": "Bonus - Page reports",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/api/incident-reports/page?page=0&size=5&sort=reportDate",
+        "description": ""
+      }
+    }
+  ]
+}

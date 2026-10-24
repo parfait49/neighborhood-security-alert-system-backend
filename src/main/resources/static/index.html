@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0b1730">
+  <title>Neighborhood Security | Command Center</title>
+  <link rel="stylesheet" href="/styles.css">
+  <script src="/app.js" defer></script>
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar">
+      <div class="brand">
+        <div class="brand-mark">NS</div>
+        <div><strong>Neighborhood</strong><span>SECURITY SYSTEM</span></div>
+      </div>
+      <div class="nav-label">WORKSPACE</div>
+      <nav class="nav">
+        <button class="nav-link active" data-view="dashboard"><span class="nav-icon">▦</span> Overview</button>
+        <button class="nav-link" data-view="incidents"><span class="nav-icon">⚑</span> Incident reports <span class="nav-count" id="incidentNavCount">—</span></button>
+        <button class="nav-link" data-view="residents"><span class="nav-icon">♙</span> Residents</button>
+        <button class="nav-link" data-view="guards"><span class="nav-icon">⬟</span> Security guards</button>
+        <button class="nav-link" data-view="zones"><span class="nav-icon">⌖</span> Patrol zones</button>
+        <button class="nav-link" data-view="types"><span class="nav-icon">☷</span> Incident types</button>
+        <button class="nav-link" data-view="actions"><span class="nav-icon">✓</span> Response actions</button>
+      </nav>
+      <div class="sidebar-bottom">
+        <div class="connection"><span class="pulse"></span><div><strong id="connectionText">Checking connection</strong><small>Spring Boot · localhost:8080</small></div></div>
+        <div class="sidebar-footer">Neighborhood safety starts together.</div>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <button class="mobile-menu" id="mobileMenu" aria-label="Toggle navigation">☰</button>
+        <div class="breadcrumbs"><span>Workspace</span><b>/</b><strong id="crumb">Overview</strong></div>
+        <div class="top-actions"><span class="date-pill" id="todayLabel"></span><button class="icon-btn" id="refreshBtn" title="Refresh data">↻</button><div class="avatar">NS</div></div>
+      </header>
+
+      <section class="content">
+        <div class="page-heading">
+          <div><div class="eyebrow" id="eyebrow">COMMUNITY SAFETY AT A GLANCE</div><h1 id="pageTitle">Good day, team.</h1><p id="pageSubtitle">Monitor reports, coordinate patrols, and help keep your neighborhood safe.</p></div>
+          <button class="primary-btn" id="quickReportBtn"><span>＋</span> Report an incident</button>
+        </div>
+
+        <div id="toast" class="toast" role="status" aria-live="polite"></div>
+        <section id="dashboardView" class="view">
+          <div class="stats-grid" id="statsGrid">
+            <div class="stat-card skeleton"></div><div class="stat-card skeleton"></div><div class="stat-card skeleton"></div><div class="stat-card skeleton"></div>
+          </div>
+          <div class="dashboard-grid">
+            <div class="panel incident-panel">
+              <div class="panel-head"><div><h2>Recent incident reports</h2><p>Latest activity recorded in the system</p></div><button class="text-btn" data-goto="incidents">View all <span>→</span></button></div>
+              <div id="recentIncidents" class="table-wrap"><div class="empty-state">Loading reports…</div></div>
+            </div>
+            <div class="panel">
+              <div class="panel-head"><div><h2>Response status</h2><p>Current report breakdown</p></div><span class="tiny-icon">◔</span></div>
+              <div id="statusBreakdown" class="status-breakdown"></div>
+              <div class="panel-note"><span class="note-icon">i</span><span>Update an incident’s status as the response progresses.</span></div>
+            </div>
+          </div>
+          <div class="panel quick-panel">
+            <div class="panel-head"><div><h2>Quick access</h2><p>Common tasks for the neighborhood team</p></div></div>
+            <div class="quick-grid">
+              <button class="quick-action" data-goto="incidents"><span class="quick-icon coral">⚑</span><span><strong>Review incidents</strong><small>Check reports and status</small></span><b>→</b></button>
+              <button class="quick-action" data-goto="residents"><span class="quick-icon blue">♙</span><span><strong>Manage residents</strong><small>View community records</small></span><b>→</b></button>
+              <button class="quick-action" data-goto="guards"><span class="quick-icon green">⬟</span><span><strong>Coordinate guards</strong><small>Review patrol assignments</small></span><b>→</b></button>
+              <button class="quick-action" data-goto="zones"><span class="quick-icon violet">⌖</span><span><strong>Patrol coverage</strong><small>Manage patrol zones</small></span><b>→</b></button>
+            </div>
+          </div>
+        </section>
+        <section id="dataView" class="view hidden">
+          <div class="panel data-panel">
+            <div class="data-toolbar"><div><h2 id="tableTitle">Records</h2><p id="tableSubtitle">Manage system records</p></div><div class="toolbar-right"><label class="search-box"><span>⌕</span><input id="searchInput" type="search" placeholder="Search records…"></label><button class="primary-btn" id="addBtn">＋ Add new</button></div></div>
+            <div id="dataTable" class="table-wrap"><div class="empty-state">Loading…</div></div>
+            <div class="table-footer"><span id="recordCount">0 records</span><button class="subtle-btn" id="tableRefresh">↻ Refresh list</button></div>
+          </div>
+        </section>
+      </section>
+      <footer class="main-footer"><span>Neighborhood Security Alert System</span><span>Community · Coordination · Safety</span></footer>
+    </main>
+  </div>
+
+  <div class="modal-backdrop hidden" id="modalBackdrop">
+    <section class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <div class="modal-head"><div><span class="eyebrow">SYSTEM RECORD</span><h2 id="modalTitle">Add record</h2></div><button class="icon-btn" id="closeModal" aria-label="Close">×</button></div>
+      <form id="recordForm"><div id="formFields" class="form-grid"></div><div class="form-actions"><button type="button" class="subtle-btn" id="cancelModal">Cancel</button><button type="submit" class="primary-btn" id="saveBtn">Save record</button></div></form>
+    </section>
+  </div>
+  <div class="confirm-backdrop hidden" id="confirmBackdrop"><div class="confirm-box"><h3>Delete this record?</h3><p>This action cannot be undone. Records referenced by other records may not be deletable.</p><div class="form-actions"><button class="subtle-btn" id="cancelDelete">Cancel</button><button class="danger-btn" id="confirmDelete">Delete record</button></div></div></div>
+</body>
+</html>
